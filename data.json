@@ -1,0 +1,24 @@
+{
+  "conversation": [
+    {
+      "scammer": "URGENT: Your bank account is blocked",
+      "agent": "Is my money safe right now?"
+    },
+    {
+      "scammer": "Verify immediately to avoid suspension",
+      "agent": "Can you send the official link again?"
+    },
+    {
+      "scammer": "Transfer ₹5000 to 998877665544",
+      "agent": "I don’t understand, what do you mean?"
+    },
+    {
+      "scammer": "Use UPI rohit.axis@upi",
+      "agent": null
+    },
+    {
+      "scammer": "Click https://secure-bank-login-verification.com",
+      "agent": "Can you send the official link again?"
+    }
+  ]
+}
