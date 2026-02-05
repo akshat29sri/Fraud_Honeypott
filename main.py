@@ -1,35 +1,31 @@
-from fastapi import FastAPI
-from agent import HoneypotAgent
-from mock_scammer import get_scammer_messages
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi import FastAPI, Header
+from pydantic import BaseModel
 
-app = FastAPI(title="Agentic Scam Honeypot")
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],   # hackathon ke liye OK
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+app = FastAPI()
 
-agent = HoneypotAgent()
+API_KEY = "honeypot-hackathon-2026-secret"
 
-@app.get("/")
-def home():
-    return {"status": "Agentic Honeypot Running"}
+class IncomingMessage(BaseModel):
+    sessionId: str
+    message: dict
+    conversationHistory: list
+    metadata: dict
 
-@app.get("/simulate")
-def simulate_attack():
-    conversation = []
 
-    for msg in get_scammer_messages():
-        reply = agent.handle_message(msg)
-        conversation.append({
-            "scammer": msg,
-            "agent": reply
-        })
+@app.post("/")
+def hackathon_entry(payload: IncomingMessage, x_api_key: str = Header(None)):
+    if x_api_key != API_KEY:
+        return {
+            "status": "error",
+            "reply": "Invalid API key"
+        }
+
+    scam_text = payload.message.get("text", "")
+
+    # Simple honeypot reply logic
+    reply = "Why is my account being suspended?"
 
     return {
-        "conversation": conversation,
-        "report": agent.report()
+        "status": "success",
+        "reply": reply
     }
