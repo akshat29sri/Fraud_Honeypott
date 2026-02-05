@@ -1,31 +1,16 @@
-from fastapi import FastAPI, Header
-from pydantic import BaseModel
+from fastapi import FastAPI, Request
 
 app = FastAPI()
 
-API_KEY = "honeypot-hackathon-2026-secret"
-
-class IncomingMessage(BaseModel):
-    sessionId: str
-    message: dict
-    conversationHistory: list
-    metadata: dict
-
-
 @app.post("/")
-def hackathon_entry(payload: IncomingMessage, x_api_key: str = Header(None)):
-    if x_api_key != API_KEY:
-        return {
-            "status": "error",
-            "reply": "Invalid API key"
-        }
+async def hackathon_entry(request: Request):
+    body = await request.json()
 
-    scam_text = payload.message.get("text", "")
+    # message text jo scammer bhejta hai
+    text = body["message"]["text"]
 
-    # Simple honeypot reply logic
-    reply = "Why is my account being suspended?"
-
+    # simple dummy reply (baad me smart bana lena)
     return {
         "status": "success",
-        "reply": reply
+        "reply": "Why is my account being suspended?"
     }
