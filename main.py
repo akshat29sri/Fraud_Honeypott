@@ -1,6 +1,5 @@
 from fastapi import FastAPI, Header, HTTPException
 from pydantic import BaseModel
-from api import analyze_text
 
 app = FastAPI()
 
@@ -20,6 +19,12 @@ class RequestBody(BaseModel):
 @app.get("/")
 def root():
     return {"msg": "API live"}
+
+def analyze_text(text: str) -> str:
+    text = text.lower()
+    if any(word in text for word in ["bank", "verify", "blocked", "upi", "account"]):
+        return "I am worried. Can you explain why this is happening to my account?"
+    return "Okay, please share more details."
 
 @app.post("/")
 def analyze(payload: RequestBody, x_api_key: str = Header(None)):
