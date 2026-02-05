@@ -20,7 +20,7 @@ class RequestBody(BaseModel):
 def root():
     return {"msg": "API live"}
 
-@app.post("/")
+@app.post("/analyze")
 def analyze(payload: RequestBody, x_api_key: str = Header(None)):
     if x_api_key != API_KEY:
         raise HTTPException(status_code=401, detail="Invalid API key")
