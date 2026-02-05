@@ -1,8 +1,3 @@
-app = FastAPI(
-    title="Fraud Honeypot API",
-    docs_url="/docs",
-    openapi_url="/openapi.json"
-)
 from fastapi import FastAPI, Header, HTTPException
 from pydantic import BaseModel
 
@@ -25,7 +20,7 @@ class RequestBody(BaseModel):
 def root():
     return {"msg": "API live"}
 
-@app.post("/analyze")
+@app.post("/")
 def analyze(payload: RequestBody, x_api_key: str = Header(None)):
     if x_api_key != API_KEY:
         raise HTTPException(status_code=401, detail="Invalid API key")
