@@ -42,7 +42,7 @@
       output.textContent = "⏳ Running simulation...";
 
       try {
-        const res = await fetch("https://fraud-honeypott.onrender.com/simulate");
+        const res = await fetch("https://fraud-honeypott.onrender.com");
         const data = await res.json();
 
         const intel = data.report.intelligence;
