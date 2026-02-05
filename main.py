@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Header, HTTPException
 from pydantic import BaseModel
+from api import analyze_text
 
 app = FastAPI()
 
@@ -25,12 +26,7 @@ def analyze(payload: RequestBody, x_api_key: str = Header(None)):
     if x_api_key != API_KEY:
         raise HTTPException(status_code=401, detail="Invalid API key")
 
-    text = payload.message.text.lower()
-
-    if "bank" in text or "verify" in text or "blocked" in text:
-        reply = "This looks like a scam. Do not click any links."
-    else:
-        reply = "Message seems safe."
+    reply = analyze_text(payload.message.text)
 
     return {
         "status": "success",
