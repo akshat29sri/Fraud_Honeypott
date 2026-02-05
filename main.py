@@ -1,3 +1,8 @@
+app = FastAPI(
+    title="Fraud Honeypot API",
+    docs_url="/docs",
+    openapi_url="/openapi.json"
+)
 from fastapi import FastAPI, Header, HTTPException
 from pydantic import BaseModel
 
